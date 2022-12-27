@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useRef } from "react";
 import Container from "react-bootstrap/esm/Container";
 import { MainLayout } from "../components/mainLayout/MainLayout";
 import Button from "react-bootstrap/Button";
 import { Col, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import { CustomField } from "../components/customField/CustomField";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../helpers/axiosHelper";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const emailRef = useRef("");
+  const pinRef = useRef("");
+
   const fields = [
     {
       label: "Email",
@@ -14,6 +22,7 @@ const Login = () => {
       name: "email",
       type: "email",
       required: true,
+      forwardedref: emailRef,
     },
     {
       label: "pin",
@@ -21,8 +30,27 @@ const Login = () => {
       name: "pin",
 
       required: true,
+      forwardedref: pinRef,
     },
   ];
+
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+
+    const loginObj = {
+      email: emailRef.current.value,
+      pin: pinRef.current.value,
+    };
+
+    const { status, message, result } = await loginUser(loginObj);
+    toast[status](message);
+
+    if (status === "success" && result?._id) {
+      sessionStorage.setItem("user", JSON.stringify(result));
+      localStorage.setItem("user", JSON.stringify(result));
+      navigate("/dashboard");
+    }
+  };
 
   return (
     <MainLayout>
@@ -40,7 +68,7 @@ const Login = () => {
               <div>
                 <h1 className="text-center text-primary">Login here</h1>
               </div>
-              <Form>
+              <Form onSubmit={handleOnSubmit}>
                 {fields.map((item, i) => (
                   <CustomField key={i} {...item} />
                 ))}
@@ -50,6 +78,9 @@ const Login = () => {
                   </Button>
                 </div>
               </Form>
+              <div className="text-end mt-5">
+                <Link to="/register"> Register Now</Link>
+              </div>
             </div>
           </Col>
         </Row>
