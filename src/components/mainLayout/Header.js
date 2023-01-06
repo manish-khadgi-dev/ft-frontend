@@ -18,7 +18,7 @@ export const Header = () => {
     sessionStorage.removeItem("user");
   };
   return (
-    <Navbar bg="secondary " expand="lg">
+    <Navbar bg="warning " expand="lg">
       <Container>
         <Navbar.Brand href="#">Finance Tracker</Navbar.Brand>
         welcome {user.name}

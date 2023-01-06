@@ -56,7 +56,7 @@ const Login = () => {
     <MainLayout>
       <Container className="mt-5">
         <Row className="login-page p-5 ">
-          <Col className="bg-primary text-center">
+          <Col className="bg-warning text-center">
             <div className="info  p-2 pt-5 text-white mt-5">
               <h1> Welcome Back to Our System</h1>
               <p> Tracker</p>
@@ -66,14 +66,14 @@ const Login = () => {
             {" "}
             <div className="form">
               <div>
-                <h1 className="text-center text-primary">Login here</h1>
+                <h1 className="text-center text-warning">Login here</h1>
               </div>
               <Form onSubmit={handleOnSubmit}>
                 {fields.map((item, i) => (
                   <CustomField key={i} {...item} />
                 ))}
                 <div className="d-grid">
-                  <Button variant="primary" type="submit">
+                  <Button variant="warning" type="submit">
                     Submit
                   </Button>
                 </div>
